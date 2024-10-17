@@ -28,6 +28,9 @@ public class CourseService {
     @Transactional
     public void addCourse(Course course) {
         courseRepository.save(course);
+        if(course.getTopic().getId().equals("cpp")) {
+            throw new RuntimeException("Exception thrown from addCourse for topic cpp");
+        }
     }
 
     @Transactional
