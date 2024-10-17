@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Mon Sep 23 11:58:50 IST 2024:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0192-1d91-8a07-00000fb01fe0 
+Thu Oct 17 17:26:51 IST 2024:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-0192-9a56-79b8-00000b4893f0 
 on database directory memory:/home/saurabh_nandwal/NimbleWork/others/Spring booter/testdb with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
 Loaded from file:/home/saurabh_nandwal/.m2/repository/org/apache/derby/derby/10.14.2.0/derby-10.14.2.0.jar
 java.vendor=Private Build
@@ -8,6 +8,9 @@ java.runtime.version=1.8.0_422-8u422-b05-1~20.04-b05
 user.dir=/home/saurabh_nandwal/NimbleWork/others/Spring booter
 os.name=Linux
 os.arch=amd64
-os.version=5.15.0-119-generic
+os.version=5.15.0-122-generic
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Thu Oct 17 17:30:34 IST 2024:
+Shutting down instance a816c00e-0192-9a56-79b8-00000b4893f0 on database directory memory:/home/saurabh_nandwal/NimbleWork/others/Spring booter/testdb with class loader sun.misc.Launcher$AppClassLoader@18b4aac2 
