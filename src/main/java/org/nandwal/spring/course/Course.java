@@ -4,7 +4,6 @@ import org.nandwal.spring.topic.Topic;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
