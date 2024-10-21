@@ -1,20 +1,14 @@
 package org.nandwal.spring.topic;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.Model;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -30,7 +24,8 @@ public class TopicControllerTests {
 
     @Test
     void testGetAllTopics() throws Exception {
-        List<Topic> topics = Arrays.asList(new Topic("1", "Topic 1", "Description 1"), new Topic("2", "Topic 2", "Description 2"));
+        // use List.of instead of List.of
+        List<Topic> topics = List.of(new Topic("1", "Topic 1", "Description 1"), new Topic("2", "Topic 2", "Description 2"));
         when(topicService.getAllTopics()).thenReturn(topics);
 
         mockMvc.perform(get("/topics"))

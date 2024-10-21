@@ -26,7 +26,7 @@ public class TopicServiceTests {
 
     @Test
     void testGetAllTopics() {
-        List<Topic> topics = Arrays.asList(new Topic("1", "Topic 1", "Description 1"), new Topic("2", "Topic 2", "Description 2"));
+        List<Topic> topics = List.of(new Topic("1", "Topic 1", "Description 1"), new Topic("2", "Topic 2", "Description 2"));
         when(topicRepository.findAll()).thenReturn(topics);
 
         List<Topic> result = topicService.getAllTopics();
@@ -37,7 +37,7 @@ public class TopicServiceTests {
 
     @Test
     void testGetAllTopics1() {
-        when(topicRepository.findAll()).thenReturn(Arrays.asList());
+        when(topicRepository.findAll()).thenReturn(List.of());
 
         List<Topic> result = topicService.getAllTopics();
         assertNull(result);
@@ -69,6 +69,15 @@ public class TopicServiceTests {
         Topic topic = new Topic("1", "Topic 1", "Description 1");
 
         topicService.addTopic(topic);
+        verify(topicRepository, times(1)).save(topic);
+    }
+
+    @Test
+    void testAddTopicException() {
+        Topic topic = new Topic("1", "html", "Description for HTML");
+        when(topicRepository.save(topic)).thenReturn(topic);
+//        topicService.addTopic(topic);
+        assertThrows(RuntimeException.class, () -> topicService.addTopic(topic));
         verify(topicRepository, times(1)).save(topic);
     }
 

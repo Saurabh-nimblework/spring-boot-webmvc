@@ -29,6 +29,9 @@ public class TopicService {
     @Transactional
     public void addTopic(Topic topic) {
         topicRepository.save(topic);
+        if(topic.getName().equals("html")) {
+            throw new RuntimeException("Exception thrown from addTopic for topic name html");
+        }
     }
 
     @Transactional
