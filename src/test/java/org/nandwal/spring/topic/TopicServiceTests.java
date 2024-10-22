@@ -1,97 +1,95 @@
 package org.nandwal.spring.topic;
 
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
+@SpringBootTest
+@AutoConfigureTestDatabase(replace = Replace.NONE)
+@ActiveProfiles("test")
 public class TopicServiceTests {
 
-    @Mock
+    @Autowired
     private TopicRepository topicRepository;
 
-    @InjectMocks
+    @Autowired
     private TopicService topicService;
 
-    public TopicServiceTests() {
-        MockitoAnnotations.initMocks(this);
+    @BeforeEach
+    void setUp() {
+        topicRepository.deleteAll();
+    }
+
+    @AfterEach
+    void tearDown() {
+        topicRepository.deleteAll();
     }
 
     @Test
     void testGetAllTopics() {
-        List<Topic> topics = List.of(new Topic("1", "Topic 1", "Description 1"), new Topic("2", "Topic 2", "Description 2"));
-        when(topicRepository.findAll()).thenReturn(topics);
+        List<Topic> topics = List.of(new Topic("1a", "Topic 1", "Description 1"), new Topic("2a", "Topic 2", "Description 2"));
+        topicRepository.saveAll(topics);
 
         List<Topic> result = topicService.getAllTopics();
         assertNotNull(result);
         assertEquals(2, result.size());
-        verify(topicRepository, times(1)).findAll();
-    }
-
-    @Test
-    void testGetAllTopics1() {
-        when(topicRepository.findAll()).thenReturn(List.of());
-
-        List<Topic> result = topicService.getAllTopics();
-        assertNull(result);
-        verify(topicRepository, times(1)).findAll();
     }
 
     @Test
     void testGetTopic() {
-        Topic topic = new Topic("1", "Topic 1", "Description 1");
-        when(topicRepository.findById("1")).thenReturn(Optional.of(topic));
+        Topic topic = new Topic("1b", "Topic 1", "Description 1tGT");
+        topicRepository.save(topic);
 
-        Topic result = topicService.getTopic("1");
+        Topic result = topicService.getTopic("1b");
         assertNotNull(result);
-        assertEquals("1", result.getId());
-        verify(topicRepository, times(1)).findById("1");
-    }
-
-    @Test
-    void testGetTopic1() {
-        when(topicRepository.findById("1")).thenReturn(Optional.empty());
-
-        Topic result = topicService.getTopic("1");
-        assertNull(result);
-        verify(topicRepository, times(1)).findById("1");
+        assertEquals("1b", result.getId());
     }
 
     @Test
     void testAddTopic() {
-        Topic topic = new Topic("1", "Topic 1", "Description 1");
+        Topic topic = new Topic("1c", "Topic 1", "Description 1tAT");
 
         topicService.addTopic(topic);
-        verify(topicRepository, times(1)).save(topic);
+        Optional<Topic> result = topicRepository.findById("1c");
+        assertTrue(result.isPresent());
     }
 
     @Test
     void testAddTopicException() {
-        Topic topic = new Topic("1", "html", "Description for HTML");
-        when(topicRepository.save(topic)).thenReturn(topic);
-//        topicService.addTopic(topic);
+        Topic topic = new Topic("1d", "html", "Description for HTML");
+
         assertThrows(RuntimeException.class, () -> topicService.addTopic(topic));
-        verify(topicRepository, times(1)).save(topic);
+        Optional<Topic> result = topicRepository.findById("1d");
+        assertFalse(result.isPresent());
     }
 
     @Test
     void testUpdateTopic() {
-        Topic topic = new Topic("1", "Topic 1", "Description 1");
+        Topic topic = new Topic("1e", "Topic 1", "Description 1tUT");
+        topicRepository.save(topic);
 
-        topicService.updateTopic(topic, "1");
-        verify(topicRepository, times(1)).save(topic);
+        topic.setName("Updated Topic 1");
+        topicService.updateTopic(topic, "1e");
+        Optional<Topic> result = topicRepository.findById("1e");
+        assertTrue(result.isPresent());
+        assertEquals("Updated Topic 1", result.get().getName());
     }
 
     @Test
     void testDeleteTopic() {
-        topicService.deleteTopic("1");
-        verify(topicRepository, times(1)).deleteById("1");
+        Topic topic = new Topic("1f", "Topic 1", "Description 1tDT");
+        topicRepository.save(topic);
+
+        topicService.deleteTopic("1f");
+        Optional<Topic> result = topicRepository.findById("1f");
+        assertFalse(result.isPresent());
     }
 }
