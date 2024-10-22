@@ -1,6 +1,7 @@
 package org.nandwal.spring.topic;
 
 import org.junit.jupiter.api.*;
+import org.nandwal.spring.course.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
@@ -13,7 +14,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@AutoConfigureTestDatabase(replace = Replace.NONE)
+@AutoConfigureTestDatabase(replace = Replace.AUTO_CONFIGURED)
 @ActiveProfiles("test")
 public class TopicServiceTests {
 
@@ -23,13 +24,12 @@ public class TopicServiceTests {
     @Autowired
     private TopicService topicService;
 
+    @Autowired
+    private CourseRepository courseRepository;
+
     @BeforeEach
     void setUp() {
-        topicRepository.deleteAll();
-    }
-
-    @AfterEach
-    void tearDown() {
+        courseRepository.deleteAll();
         topicRepository.deleteAll();
     }
 
@@ -63,7 +63,7 @@ public class TopicServiceTests {
     }
 
     @Test
-    void testAddTopicException() {
+    void testAddTopic_Transactional() {
         Topic topic = new Topic("1d", "html", "Description for HTML");
 
         assertThrows(RuntimeException.class, () -> topicService.addTopic(topic));

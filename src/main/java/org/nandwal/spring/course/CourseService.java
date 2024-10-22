@@ -29,7 +29,7 @@ public class CourseService {
     public void addCourse(Course course) {
         courseRepository.save(course);
         if(course.getTopic().getId().equals("cpp")) {
-            throw new RuntimeException("Exception thrown from addCourse for topic cpp");
+            throw new RuntimeException("Exception thrown for topic cpp");
         }
     }
 

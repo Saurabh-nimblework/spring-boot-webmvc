@@ -23,7 +23,6 @@ public class TopicControllerTests {
 
     @Test
     void testGetAllTopics() throws Exception {
-        // use List.of instead of List.of
         List<Topic> topics = List.of(new Topic("1", "Topic 1", "Description 1"), new Topic("2", "Topic 2", "Description 2"));
         when(topicService.getAllTopics()).thenReturn(topics);
 
