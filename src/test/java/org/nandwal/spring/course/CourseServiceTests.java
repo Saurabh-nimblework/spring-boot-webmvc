@@ -16,7 +16,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@AutoConfigureTestDatabase(replace = Replace.AUTO_CONFIGURED)
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
 public class CourseServiceTests {
 

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -39,7 +38,7 @@ public class TopicController {
     @RequestMapping(method= RequestMethod.POST, value="/topics")
     public String addTopic(@RequestBody Topic topic) {
         topicService.addTopic(topic);
-        return "redirect:/topics"; // Redirect to the list of topics
+        return "redirect:/topics";
     }
 
     @RequestMapping(method= RequestMethod.PUT, value="/topics/{id}")

@@ -1,11 +1,11 @@
 package org.nandwal.spring.topic;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -26,11 +26,19 @@ public class TopicService {
         return topicRepository.findById(id).orElse(null);
     }
 
+    // check for runtime exeption on stack overflow
+    // use @Valid annotation to validate the input and Entity lifecycle   
     @Transactional
     public void addTopic(Topic topic) {
         topicRepository.save(topic);
         if(topic.getName().equals("html")) {
             throw new RuntimeException("Exception thrown from addTopic for topic name html");
+//            throw new DataAccessException("Exception thrown from addTopic for topic name html") {
+//                @Override
+//                public String getMessage() {
+//                    return super.getMessage();
+//                }
+//            };
         }
     }
 
