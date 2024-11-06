@@ -7,10 +7,11 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.*;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.persistence.EntityManagerFactory;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,10 +19,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
+@DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = TopicService.class))
+@Import(TestConfig.class)
 public class TopicServiceTests {
 
     @Nested
-    @DataJpaTest(includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = TopicService.class))
     class DataJpaTests {
 
         @Autowired
@@ -92,7 +94,6 @@ public class TopicServiceTests {
     }
 
     @Nested
-    @SpringBootTest
     class SpringBootTests {
 
         @Autowired
@@ -117,5 +118,17 @@ public class TopicServiceTests {
             Topic result = topicRepository.findById("1d").orElse(null);
             assertNull(result);
         }
+    }
+}
+
+
+
+
+@Configuration
+class TestConfig {
+
+    @Bean
+    public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory);
     }
 }
