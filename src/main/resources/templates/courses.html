@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses</title>
+</head>
+<body>
+<h1>Courses</h1>
+
+<!-- Check if 'courses' is a list of courses -->
+<div th:if="${courses instanceof T(java.util.List)}">
+    <ul>
+        <li th:each="course : ${courses}">
+            <p th:text="'ID: ' + ${course.id}"></p>
+            <p th:text="'Name: ' + ${course.name}"></p>
+            <p th:text="'Description: ' + ${course.description}"></p>
+            <p th:text="'Topic ID: ' + ${course.topic.id} + ', Topic Name: ' + ${course.topic.name}"></p>
+            <hr>
+        </li>
+    </ul>
+</div>
+
+<!-- Check if 'courses' is a single course object-->
+<div th:if="${courses instanceof T(org.nandwal.spring.course.Course)}">
+    <p th:text="'ID: ' + ${courses.id}"></p>
+    <p th:text="'Name: ' + ${courses.name}"></p>
+    <p th:text="'Description: ' + ${courses.description}"></p>
+    <p th:text="'Topic ID: ' + ${courses.topic.id}"></p>
+</div>
+
+<!-- Display 'No course found' if courseNotFound is true -->
+<div th:if="${courseNotFound}">
+    <h3>No course found</h3>
+</div>
+</body>
+</html>

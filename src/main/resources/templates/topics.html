@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Topics</title>
+</head>
+<body>
+<h1>Topics</h1>
+
+<!-- Check if 'topics' attribute is a list -->
+<div th:if="${topics instanceof T(java.util.List)}">
+    <ul>
+        <li th:each="topic : ${topics}">
+            <p th:text="'ID: ' + ${topic.id}"></p>
+            <p th:text="'Name: ' + ${topic.name}"></p>
+            <p th:text="'Description: ' + ${topic.description}"></p>
+        </li>
+    </ul>
+</div>
+
+<!-- Check if 'topics' attribute is a single object -->
+<div th:if="${topics instanceof T(org.nandwal.spring.topic.Topic)}">
+    <p th:text="'ID: ' + ${topics.id}"></p>
+    <p th:text="'Name: ' + ${topics.name}"></p>
+    <p th:text="'Description: ' + ${topics.description}"></p>
+</div>
+
+<div th:if="${topicNotFound}">
+    <h3>No topic found</h3>
+</div>
+
+</body>
+</html>
